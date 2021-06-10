@@ -1,0 +1,10 @@
+eureka:
+  instance:
+    hostname: localhost2 #指定主机地址
+  client:
+    fetch-registry: false #指定是否要从注册中心获取服务（注册中心不需要开启）
+    register-with-eureka: false #指定是否要注册到注册中心（注册中心不需要开启）
+    serviceUrl:
+      defaultZone: http://localhost:8091/eureka/,http://localhost1:8092/eureka/
+server:
+  port: 8090

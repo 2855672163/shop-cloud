@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+
+<head id="headId">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<title>结算页</title>
+
+	<link href="../js/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../js/shop/css/webbase.css" />
+	<link rel="stylesheet" type="text/css" href="../js/shop/css/pages-getOrderInfo.css" />
+</head>
+
+<body>
+<!--head-->
+<div class="top">
+	<div class="py-container">
+		<div class="shortcut">
+			<ul class="fl">
+				<li class="f-item">品优购欢迎您！</li>
+				<li class="f-item">请登录　<span><a href="#">免费注册</a></span></li>
+			</ul>
+			<ul class="fr">
+				<li class="f-item">我的订单</li>
+				<li class="f-item space"></li>
+				<li class="f-item">我的品优购</li>
+				<li class="f-item space"></li>
+				<li class="f-item">品优购会员</li>
+				<li class="f-item space"></li>
+				<li class="f-item">企业采购</li>
+				<li class="f-item space"></li>
+				<li class="f-item">关注品优购</li>
+				<li class="f-item space"></li>
+				<li class="f-item">客户服务</li>
+				<li class="f-item space"></li>
+				<li class="f-item">网站导航</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="cart py-container">
+	<!--logoArea-->
+	<div class="logoArea">
+		<div class="fl logo"><span class="title">结算页</span></div>
+		<div class="fr search">
+			<form class="sui-form form-inline">
+				<div class="input-append">
+					<input type="text" type="text" class="input-error input-xxlarge" placeholder="品优购自营" />
+					<button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!--主内容-->
+	<div class="checkout py-container">
+		<div class="checkout-tit">
+			<h4 class="tit-txt">填写并核对订单信息</h4>
+		</div>
+		<div class="checkout-steps">
+			<!--收件人信息-->
+			<div class="step-tit">
+				<h5>收件人信息<span><a data-target=".edit" data-keyboard="false" class="newadd" onclick="addCollection()">新增收货地址</a></span></h5>
+			</div>
+			<div class="step-cont">
+				<div class="addressInfo">
+					<ul class="addr-detail">
+						<li class="addr-item" id="collectionListId">
+
+						</li>
+
+
+					</ul>
+					<div id="addCollectionDiv" style="display: none">
+						<form class="form-horizontal" action="/addBrand.jhtml" method="post">
+							<div class="form-group">
+								<label  class="col-sm-2 control-label">收件人:</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="add_consignee" placeholder="请输入收件人">
+								</div>
+							</div>
+							<div class="form-group">
+								<label  class="col-sm-2 control-label">收货地址:</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="add_address" placeholder="请输入地址">
+								</div>
+							</div>
+							<div class="form-group">
+								<label  class="col-sm-2 control-label">联系电话:</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="add_phone" placeholder="请输入联系电话">
+								</div>
+							</div>
+						</form>
+					</div>
+					<!--确认地址-->
+				</div>
+				<div class="hr"></div>
+
+			</div>
+			<div class="hr"></div>
+			<!--支付和送货-->
+			<div class="payshipInfo">
+				<div class="step-tit">
+					<h5>支付方式</h5>
+				</div>
+				<div class="step-cont">
+					<ul class="payType">
+						<li class="selected" value="1">微信付款<span title="点击取消选择"></span></li>
+						<li value="2">货到付款<span title="点击取消选择"></span></li>
+					</ul>
+				</div>
+				<div class="hr"></div>
+				<div class="step-tit">
+					<h5>送货清单</h5>
+				</div>
+				<div class="step-cont">
+					<ul class="send-detail" id="collectionUlId">
+
+					</ul>
+				</div>
+				<div class="hr"></div>
+			</div>
+			<div class="linkInfo">
+				<div class="step-tit">
+					<h5>发票信息</h5>
+				</div>
+				<div class="step-cont">
+					<span>普通发票（电子）</span>
+					<span>个人</span>
+					<span>明细</span>
+				</div>
+			</div>
+			<div class="cardInfo">
+				<div class="step-tit">
+					<h5>使用优惠/抵用</h5>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="order-summary">
+		<div class="static fr">
+			<div class="list" id="collectionDivId">
+
+			</div>
+			<div class="list">
+				<span>返现：</span>
+				<em class="money">0.00</em>
+			</div>
+			<div class="list">
+				<span>运费：</span>
+				<em class="transport">0.00</em>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix trade">
+		<div class="fc-price" id="SumPriceId">应付金额:　<span class="price">¥##sumPrice##</span></div>
+		<div class="fc-receiverInfo" id="collectionId">寄送至:##address## 收货人：##consignee## ##phone##<input type='hidden' id='collecId' value='##id##'></div>
+	</div>
+	<div class="submit">
+		<a class="sui-btn btn-danger btn-xlarge" onclick="addOrder()">提交订单</a>
+	</div>
+</div>
+<!-- 底部栏位 -->
+<!--页面底部-->
+<div class="clearfix footer">
+	<div class="py-container">
+		<div class="footlink">
+			<div class="Mod-service">
+				<ul class="Mod-Service-list">
+					<li class="grid-service-item intro  intro1">
+
+						<i class="serivce-item fl"></i>
+						<div class="service-text">
+							<h4>正品保障</h4>
+							<p>正品保障，提供发票</p>
+						</div>
+
+					</li>
+					<li class="grid-service-item  intro intro2">
+
+						<i class="serivce-item fl"></i>
+						<div class="service-text">
+							<h4>正品保障</h4>
+							<p>正品保障，提供发票</p>
+						</div>
+
+					</li>
+					<li class="grid-service-item intro  intro3">
+
+						<i class="serivce-item fl"></i>
+						<div class="service-text">
+							<h4>正品保障</h4>
+							<p>正品保障，提供发票</p>
+						</div>
+
+					</li>
+					<li class="grid-service-item  intro intro4">
+
+						<i class="serivce-item fl"></i>
+						<div class="service-text">
+							<h4>正品保障</h4>
+							<p>正品保障，提供发票</p>
+						</div>
+
+					</li>
+					<li class="grid-service-item intro intro5">
+
+						<i class="serivce-item fl"></i>
+						<div class="service-text">
+							<h4>正品保障</h4>
+							<p>正品保障，提供发票</p>
+						</div>
+
+					</li>
+				</ul>
+			</div>
+			<div class="clearfix Mod-list">
+				<div class="yui3-g">
+					<div class="yui3-u-1-6">
+						<h4>购物指南</h4>
+						<ul class="unstyled">
+							<li>购物流程</li>
+							<li>会员介绍</li>
+							<li>生活旅行/团购</li>
+							<li>常见问题</li>
+							<li>购物指南</li>
+						</ul>
+
+					</div>
+					<div class="yui3-u-1-6">
+						<h4>配送方式</h4>
+						<ul class="unstyled">
+							<li>上门自提</li>
+							<li>211限时达</li>
+							<li>配送服务查询</li>
+							<li>配送费收取标准</li>
+							<li>海外配送</li>
+						</ul>
+					</div>
+					<div class="yui3-u-1-6">
+						<h4>支付方式</h4>
+						<ul class="unstyled">
+							<li>货到付款</li>
+							<li>在线支付</li>
+							<li>分期付款</li>
+							<li>邮局汇款</li>
+							<li>公司转账</li>
+						</ul>
+					</div>
+					<div class="yui3-u-1-6">
+						<h4>售后服务</h4>
+						<ul class="unstyled">
+							<li>售后政策</li>
+							<li>价格保护</li>
+							<li>退款说明</li>
+							<li>返修/退换货</li>
+							<li>取消订单</li>
+						</ul>
+					</div>
+					<div class="yui3-u-1-6">
+						<h4>特色服务</h4>
+						<ul class="unstyled">
+							<li>夺宝岛</li>
+							<li>DIY装机</li>
+							<li>延保服务</li>
+							<li>品优购E卡</li>
+							<li>品优购通信</li>
+						</ul>
+					</div>
+					<div class="yui3-u-1-6">
+					</div>
+				</div>
+			</div>
+			<div class="Mod-copyright">
+				<ul class="helpLink">
+					<li>关于我们<span class="space"></span></li>
+					<li>联系我们<span class="space"></span></li>
+					<li>关于我们<span class="space"></span></li>
+					<li>商家入驻<span class="space"></span></li>
+					<li>营销中心<span class="space"></span></li>
+					<li>友情链接<span class="space"></span></li>
+					<li>关于我们<span class="space"></span></li>
+					<li>营销中心<span class="space"></span></li>
+					<li>友情链接<span class="space"></span></li>
+					<li>关于我们</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!--页面底部END-->
+
+<script type="text/javascript" src="../js/shop/js/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../js/shop/js/plugins/jquery.easing/jquery.easing.min.js"></script>
+<script type="text/javascript" src="../js/shop/js/plugins/sui/sui.min.js"></script>
+<!--<script type="text/javascript" src="../js/shop/components/ui-modules/nav/nav-portal-top.js"></script>-->
+<script type="text/javascript" src="../js/shop/js/pages/getOrderInfo.js"></script>
+<script src="../js/bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/bootbox/bootbox.locales.min.js"></script>
+<script src="../js/bootbox/bootbox.min.js"></script>
+<script type="text/javascript" src="../js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../js/url.js"></script>
+
+<script>
+
+	$(function () {
+		findCollection();
+        findCart();
+        initEvent();
+    });
+
+	function initEvent(){
+	    $(".con.address").hover(function () {
+			$(this).children().last().show();
+        },function () {
+			$(this).children().last().hide();
+        })
+	}
+
+	function findCollection() {
+	    var head = $("#headId").html();
+		$.ajax({
+			type:"get",
+			url:urls+"/collection/selectCollection",
+            beforeSend:function (xhy) {
+                var token = $.cookie("token");
+                xhy.setRequestHeader("x-auth",token);
+            },
+			success:function (result) {
+				if (result.code == 200){
+				    var collectionList = result.data;
+				    var collectionHtml = "";
+				    for (let collection of collectionList) {
+                        var start = '';
+                        var html = '';
+                        var bold = collection.state == 1? "font-weight:bold":"";
+                        if (collection.state == 1){
+                            start = "selected";
+                            html = '<span class="base">默认地址</span>';
+                            var collectionDiv_html = $("#collectionId").html();
+                            $("#collectionId").html(collectionDiv_html.replace('##consignee##',collection.consignee).replace('##address##',collection.address ).replace('##phone##',collection.phone ).replace('##id##',collection.id ));
+						}
+                        collectionHtml += '<div>\n' +
+                        '<div class="con name '+start+'"><a href="javascript:;" onclick="consigneeSelected('+collection.id+')">' + collection.consignee + '<span title="点击取消选择">&nbsp;</a></div>\n' +
+                            '<div class="con address" onclick="collectionRess(\''+collection.consignee+ '\',\''+collection.address+'\',\''+collection.phone+'\','+collection.id+',this)" style="'+bold+'"><span>' + collection.consignee + ' ' + collection.address + ' ' + collection.phone + '</span>\n' +
+                            ''+html+'\n' +
+                            '<span style="display:none"><a data-toggle="modal" data-target=".edit" data-keyboard="false" onclick="updateCollection('+collection.id+')">编辑</a>&nbsp;&nbsp;<a href="javascript:;" onclick="deleteCollection('+collection.id+')">删除</a></span>\n' +
+                            '</div>\n' +
+                            '<div class="clearfix"></div>\n' +
+                            '</div>'
+
+                    }
+                    $("#headId").html(head);
+                    $("#collectionListId").html(collectionHtml);
+                    initEvent();[]
+				}
+            }
+		})
+    }
+    
+    function consigneeSelected(id) {
+		$.ajax({
+			type:"post",
+			url:urls+"/collection/updateState",
+			data:{"id":id},
+            beforeSend:function (xhy) {
+                var token = $.cookie("token");
+                xhy.setRequestHeader("x-auth",token);
+            },
+			success:function (result) {
+				if (result.code == 200){
+				    findCollection();
+				}
+            }
+		})
+    }
+    
+    function addCollection() {
+        //备份弹框中的html元素
+        var addDiv=$("#addCollectionDiv").html();
+        //弹框
+        var v_collectionDlg=bootbox.dialog({
+            title:'增加品牌',
+            message:$("#addCollectionDiv form"),
+            size:"large",
+            //complete 这个回调函数是发送请求成功后（不管请求的返回是对还是错都会进入这个回调函数）
+            complete:function(xhr,x){
+                console.log(xhr);
+                console.log(x);
+                //通过在拦截器自定义的头信息的Key来得出来value
+                var responseHeader = xhr.getResponseHeader("Fh-Timeout");
+                //再进行判断是否和我们响应给客户端的头信息是否相等
+                if(responseHeader && responseHeader=='sessionTimeout'){
+                    //判断正确则跳转到登录页面
+                    window.location.href="/login.jsp";
+                }
+
+            },
+            buttons:{
+                confirm:{
+                    label:'<span class="glyphicon glyphicon-ok"></span>确认',
+                    className:'btn-primary',
+                    callback:function () {
+                        var param = {};
+                        param.consignee=$("#add_consignee",v_collectionDlg).val();
+                        param.address=$("#add_address",v_collectionDlg).val();
+                        param.phone=$("#add_phone",v_collectionDlg).val();
+                        console.log(param);
+                        $.ajax({
+                            type:"post",
+                            data:param,
+                            beforeSend:function (xhy) {
+                                var token = $.cookie("token");
+                                xhy.setRequestHeader("x-auth",token);
+                            },
+                            url:urls+"/collection/addCollection",
+                            success:function(result){
+                                if (result.code==200){
+                                    findCollection();
+                                } else if (result.code==-1){
+                                    bootbox.alert("新增失败，系统异常");
+                                }
+                            }
+                        })
+                        /*//还原弹框中的html元素
+                        $("#addCollectionDiv").html(addDiv);*/
+                    }
+                },
+                cancle:{
+                    label:'<span class="glyphicon glyphicon-remove"></span>取消',
+                    className:'btn-primary',
+                }
+            }
+
+        })
+
+        //还原弹框中的html元素
+        $("#addCollectionDiv").html(addDiv);
+    }
+
+    function deleteCollection(id) {
+	    $.ajax({
+			type:"post",
+			url:urls+"/collection/deleteCollection",
+			data:{"id":id},
+            beforeSend:function (xhy) {
+                var token = $.cookie("token");
+                xhy.setRequestHeader("x-auth",token);
+            },
+			success:function (result) {
+			    if (result.code == 200){
+			        findCollection();
+				}
+            }
+		})
+    }
+    
+    function updateCollection(id) {
+        //备份弹框中的html元素
+        var editDiv=$("#addCollectionDiv").html();
+		$.ajax({
+			type:"get",
+			url:urls+"/collection/selectByIdCollection",
+			data:{"id":id},
+            beforeSend:function (xhy) {
+                var token = $.cookie("token");
+                xhy.setRequestHeader("x-auth",token);
+            },
+			success:function (res) {
+                //备份弹框中的html元素
+                var editDiv=$("#editBrandDiv").html();
+
+                //回显数据
+                var v_collection = res.data
+                $("#add_consignee").val(v_collection.consignee);
+                $("#add_address").val(v_collection.address);
+                $("#add_phone").val(v_collection.phone);
+                //弹框
+                var v_editCollectionDlg=bootbox.dialog({
+                    title:'修改品牌',
+                    message:$("#addCollectionDiv form"),
+                    size:"large",
+                    buttons:{
+                        confirm:{
+                            label:'<span class="glyphicon glyphicon-ok"></span>确认',
+                            className:'btn-primary',
+                            callback:function () {
+                                var param = {};
+                                param.id = v_collection.id;
+                                param.consignee=$("#add_consignee",v_editCollectionDlg).val();
+                                param.address=$("#add_address",v_editCollectionDlg).val();
+                                param.phone=$("#add_phone",v_editCollectionDlg).val();
+                                console.log(param);
+                                $.ajax({
+                                    type:"post",
+                                    url:urls+"/collection/updateCollection",
+                                    data:param,
+                                    beforeSend:function (xhy) {
+                                        var token = $.cookie("token");
+                                        xhy.setRequestHeader("x-auth",token);
+                                    },
+                                    success:function (result) {
+                                        if (result.code==200){
+                                            findCollection();
+                                        } else if (result.code==-1){
+                                            bootbox.alert("更新失败");
+                                        }
+                                    }
+                                })
+
+                            }
+                        },
+                        cancle:{
+                            label:'<span class="glyphicon glyphicon-remove"></span>取消',
+                            className:'btn-primary',
+                        }
+                    }
+                })
+
+            }
+		})
+        $("#addCollectionDiv").html(editDiv);
+    }
+
+    function findCart() {
+        $.ajax({
+            type:"get",
+            url:urls+"/cart/selectCart",
+            beforeSend:function (xhy) {
+                var token = $.cookie("token");
+                xhy.setRequestHeader("x-auth",token);
+            },
+            success:function (result) {
+                if (result.code == 200){
+                    var cartInfoList = result.data.cartInfoVoList;
+                    var collectionUlHtml = '';
+                    var collectionDivHtml = '';
+                    for (let cartInfo of cartInfoList){
+                        collectionUlHtml += '<li>\n' +
+                            '\n' +
+                            '<div class="sendGoods">\n' +
+                            '\n' +
+                            '<ul class="yui3-g">\n' +
+                            '<li class="yui3-u-1-6">\n' +
+                            '<span><img src="'+cartInfo.image+'" style="height: 100px"/></span>\n' +
+                            '</li>\n' +
+                            '<li class="yui3-u-7-12">\n' +
+                            '<div class="desc">'+cartInfo.skuName+'</div>\n' +
+                            '<div class="seven">7天无理由退货</div>\n' +
+                            '</li>\n' +
+                            '<li class="yui3-u-1-12">\n' +
+                            '<div class="price">￥'+cartInfo.price+'</div>\n' +
+                            '</li>\n' +
+                            '<li class="yui3-u-1-12">\n' +
+                            '<div class="num">X'+cartInfo.stock+'</div>\n' +
+                            '</li>\n' +
+                            '<li class="yui3-u-1-12">\n' +
+                            '<div class="exit">有货</div>\n' +
+                            '</li>\n' +
+                            '</ul>\n' +
+                            '</div>\n' +
+                            '</li>'
+					}
+					collectionDivHtml += '<span><i class="number">'+result.data.sumStock+'</i>件商品，总商品金额</span>\n' +
+                        '<em class="allprice">¥'+result.data.sumPrice+'</em>';
+
+                    var sumPriceDiv_html = $("#SumPriceId").html();
+                    $("#SumPriceId").html(sumPriceDiv_html.replace('##sumPrice##',result.data.sumPrice));
+					$("#collectionUlId").html(collectionUlHtml);
+                    $("#collectionDivId").html(collectionDivHtml);
+				}
+            }
+        })
+    }
+
+    function collectionRess(consignee,address,phone,id,obj) {
+        $("#collectionId").html("寄送至:"+address+" 收货人："+consignee+" "+phone+"<input type='hidden' id='collecId' value='"+id+"'>");
+
+        $(".con.address").css("font-weight","");
+
+		$(obj).css("font-weight","bold");
+    }
+
+    function addOrder(){
+        var payType = $("#collecId").val();
+        var collectionId = $(".payType li.selected").val();
+	    $.ajax({
+			type:"post",
+			url:urls+"/order/addOrder",
+			data:{"collectionId":collectionId,"payType":payType},
+            beforeSend:function (xhy) {
+                var token = $.cookie("token");
+                xhy.setRequestHeader("x-auth",token);
+            },
+			success:function (result) {
+				if (result.code == 200){
+				    location.href="orders.html";
+				} else {
+				    alert(result.data);
+				}
+            }
+		})
+	}
+    
+</script>
+</body>
+
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+
+    <link href="../js/js/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../js/js/DataTables/DataTables-1.10.20/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="../js/js/fileinput5/css/fileinput.css" />
+    <link href="../js/js/treetable/css/jquery.treetable.css" rel="stylesheet">
+    <link href="../js/js/treetable/css/jquery.treetable.theme.default.css" rel="stylesheet">
+    <link href="../js/js/bootstrap-select-1.13.14/dist/css/bootstrap-select.css" rel="stylesheet"/>
+    <!--<link rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css">
+    <link href="../js/DataTables/DataTables-1.10.20/css/dataTables.bootstrap.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" type="text/css" href="../js/shop/css/webbase.css" />
+    <link rel="stylesheet" type="text/css" href="../js/shop/css/pages-JD-index.css" />
+    <link rel="stylesheet" type="text/css" href="../js/shop/css/widget-jquery.autocomplete.css" />
+    <link rel="stylesheet" type="text/css" href="../js/shop/css/widget-cartPanelView.css" />
+    <title>订单详情页面</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="panel panel-success">
+            <div class="panel-heading">订单详情</div>
+            <div class="panel-body">
+                <table id="tables" class="display" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>选择</th>
+                        <th>订单编号</th>
+                        <th>订单总价格</th>
+                        <th>订单中商品总数量</th>
+                        <th>订单状态</th>
+                        <th>订单创建时间</th>
+                        <th>订单收件人名字</th>
+                        <th>地址</th>
+                        <th>电话</th>
+                        <th>支付方式</th>
+                        <th>当前会员</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>选择</th>
+                        <th>订单编号</th>
+                        <th>订单总价格</th>
+                        <th>订单中商品总数量</th>
+                        <th>订单状态</th>
+                        <th>订单创建时间</th>
+                        <th>订单收件人名字</th>
+                        <th>地址</th>
+                        <th>电话</th>
+                        <th>支付方式</th>
+                        <th>当前会员</th>
+                        <th>操作</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script src="../js/js/jquery.min.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="../js/js/bootstrap3/js/bootstrap.min.js"></script>
+<script src="../js/js/DataTables/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="../js/js/DataTables/DataTables-1.10.20/js/dataTables.bootstrap.min.js"></script>
+<script src="../js/js/fileinput5/js/fileinput.min.js"></script>
+<script src="../js/js/fileinput5/js/locales/zh.js"></script>
+<script src="../js/js/bootbox/bootbox.locales.min.js"></script>
+<script src="../js/js/bootbox/bootbox.min.js"></script>
+<script src="../js/js/treetable/jquery.treetable.js"></script>
+<script src="../js/js/bootstrap-select-1.13.14/dist/js/bootstrap-select.js"></script>
+<link href="../js/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../js/js/bootstrap-datetimepicker/js/moment-with-locales.js"></script>
+<script type="text/javascript" src="../js/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<!--<script src="../js/jquery.min.js"></script>-->
+<script src="../js/jquery.cookie.min.js"></script>
+<!--<script src="../js/DataTables/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="../js/DataTables/DataTables-1.10.20/js/dataTables.bootstrap.min.js"></script>-->
+<!--<script src="../js/bootbox/bootbox.locales.min.js"></script>
+<script src="../js/bootbox/bootbox.min.js"></script>-->
+<!--<script src="../js/bootstrap/js/bootstrap.min.js"></script>-->
+<script type="text/javascript" src="../js/shop/js/pages/index.js"></script>
+<script src="../js/url.js"></script>
+
+
+<script>
+
+    $(function () {
+        initOrder();
+    })
+
+    //进行分页查询
+    var  v_brandTable;
+    function initOrder() {
+        v_brandTable = $('#tables').DataTable({
+            "language": {
+                "url": "../js/DataTables/Chinese.json" // 汉化
+            },
+            // 是否允许检索
+            "searching": false,
+            "processing": true,
+            "lengthMenu": [5,10,15,20],
+            "serverSide": true,
+            "ajax": {
+                "url": urls+"/order/queryList",
+                "type": "POST"
+            },
+            "columns": [
+                {  "data": "id",
+                    "render": function (data, type, row, meta) {
+                        return '<input type="checkbox" name="ids" value="'+data+'"/>';
+                    }
+
+                },
+                { "data": "id" },
+                { "data": "totalPrice" },
+                { "data": "totalCount" },
+                { "data": "status",
+                    "render": function (data, type, row, meta) {
+                        return data==0?"未支付":data==10?"已支付":data==20?"已发货":data==30?"交易成功":"交易关闭";
+                    }
+                },
+                { "data": "createTimes" },
+                { "data": "recipientName" },
+                { "data": "recipientAddr" },
+                { "data": "recipientPhone" },
+                { "data": "payType",
+                    "render": function (data, type, row, meta) {
+                        return data==1?"微信支付":"货到付款";
+                    }
+                },
+                { "data": "memberName" },
+                { "data": "id" ,
+                    "render": function (data, type, row, meta) {
+                        return '<div class="btn-group" role="group" aria-label="...">\n' +
+                            '  <button type="button" class="btn btn-danger" onclick="deleteBrand(\''+data+'\')"><span class="glyphicon glyphicon-trash"></span>支付</button>\n' +
+                            '  <button type="button" class="btn btn-primary" onclick="deleteOrder(\''+data+'\')"><span class="glyphicon glyphicon-pencil"></span>取消订单</button>\n' +
+                            '</div>';
+                    }
+                }
+            ]
+        });
+    }
+
+    
+    function deleteOrder(orderId) {
+        alert(row)
+    }
+</script>
+</body>
+</html>

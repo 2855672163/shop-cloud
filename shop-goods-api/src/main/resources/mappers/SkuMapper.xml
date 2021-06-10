@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fh.shop.goods.mapper.SkuMapper">
+
+    <select id="selectSkuList" resultType="com.fh.shop.goods.vo.SkuVos">
+    select ts.id,ts.skuName,ts.price,ts.image from t_goods tg left join t_sku ts on tg.id = ts.spuId where tg.frame = 1 and tg.newProduct = 1 and tg.recommend = 1
+    </select>
+
+    <!--<select id="selectSkuUser" resultType="com.fh.shop.api.goods.vo.SkuVos">-->
+    <!--select ts.skuName,ts.price,ts.stock,tb.brandName,GROUP_CONCAT(tc.cateName separator '/') cateName from t_sku ts-->
+    <!--left join t_goods tg on ts.spuId = tg.id-->
+    <!--left join t_brand tb on tg.brandId = tb.id-->
+    <!--left join t_cate tc on tg.cate1 = tc.id or tg.cate2 = tc.id or tg.cate3 = tc.id-->
+    <!--where ts.stock &lt; 10 group by ts.skuName-->
+    <!--</select>-->
+
+    <!--<update id="updateSkuStock" parameterType="com.fh.shop.api.order.vo.UpdateSkuVo">-->
+        <!--update t_sku set stock = stock - #{stock} where id = #{skuId} and stock >= #{stock}-->
+    <!--</update>-->
+
+    <!--<update id="updateBySales">-->
+        <!--update t_sku set sales = sales + #{sales} where id = #{skuId}-->
+    <!--</update>-->
+
+</mapper>
