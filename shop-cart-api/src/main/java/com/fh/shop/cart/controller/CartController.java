@@ -32,6 +32,7 @@ public class CartController extends HanderRequest {
 
     @GetMapping("/selectCart")
     public ServerResponse selectCart(){
+        System.out.println("1");
         MemberPo memberPo = requestMember(httpServletRequest);
         Long memberId = memberPo.getId();
         return cartService.selectCart(memberId);
